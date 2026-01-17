@@ -1,5 +1,5 @@
 <?php
-include "db.php"; // DB connection
+include "db.php"; 
 
 function getRooms($conn) {
     $result = mysqli_query($conn, "SELECT * FROM rooms ORDER BY id DESC");

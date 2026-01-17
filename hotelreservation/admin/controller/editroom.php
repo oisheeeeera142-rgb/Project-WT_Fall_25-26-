@@ -2,7 +2,7 @@
 include "../db.php";
 include "../model/roomlistmodel.php";
 
-// Edit page load
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $room = getRoom($conn, $id);
@@ -16,7 +16,6 @@ if (isset($_GET['id'])) {
     exit;
 }
 
-// Update room
 if (isset($_POST['updateRoom'])) {
     $id = $_POST['id'];
     $roomNumber = $_POST['roomNumber'];

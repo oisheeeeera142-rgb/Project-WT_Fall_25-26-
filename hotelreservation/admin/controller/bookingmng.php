@@ -6,7 +6,7 @@ $error = "";
 $editBooking = null;
 $bookings = null;
 
-/* ADD BOOKING */
+
 if (isset($_POST['add'])) {
     $guest_name = $_POST['guest_name'];
     $room_id    = $_POST['room_id'];
@@ -42,7 +42,6 @@ if (isset($_POST['add'])) {
     }
 }
 
-/* DELETE BOOKING */
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
     $roomRes = mysqli_query($conn, "SELECT room_id FROM bookings WHERE id=$id");
@@ -58,7 +57,6 @@ if (isset($_GET['delete'])) {
 }
 
 
-/* UPDATE BOOKING */
 if (isset($_POST['update'])) {
     $id        = $_POST['id'];
     $guest_name= $_POST['guest_name'];
@@ -81,7 +79,7 @@ if (isset($_POST['update'])) {
     }
 }
 
-/* FETCH BOOKING FOR EDIT */
+
 if (isset($_GET['edit'])) {
     $id = (int)$_GET['edit'];
     $result = mysqli_query($conn, "
@@ -93,7 +91,7 @@ if (isset($_GET['edit'])) {
     $editBooking = mysqli_fetch_assoc($result);
 }
 
-/* FETCH ALL BOOKINGS */
+
 $bookings = mysqli_query($conn, "
     SELECT b.*, r.room_no, r.type, r.floor, r.view, r.price 
     FROM bookings b 

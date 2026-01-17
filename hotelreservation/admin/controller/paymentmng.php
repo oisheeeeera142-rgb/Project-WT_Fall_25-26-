@@ -5,7 +5,7 @@ $success = "";
 $error = "";
 $editPayment = null;
 
-// ADD PAYMENT
+
 if (isset($_POST['add'])) {
     $booking_id = $_POST['booking_id'];
     $amount     = $_POST['amount'];
@@ -25,9 +25,9 @@ if (isset($_POST['add'])) {
     }
 }
 
-// UPDATE PAYMENT
+
 if (isset($_POST['update'])) {
-    $id         = $_POST['id']; // hidden field থেকে আসবে
+    $id         = $_POST['id']; 
     $booking_id = $_POST['booking_id'];
     $amount     = $_POST['amount'];
     $method     = $_POST['method'];
@@ -42,7 +42,7 @@ if (isset($_POST['update'])) {
     }
 }
 
-// DELETE PAYMENT
+
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
     if (deletePayment($conn, $id)) {
@@ -52,12 +52,11 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// FETCH PAYMENT FOR EDIT
+
 if (isset($_GET['edit'])) {
     $id = (int)$_GET['edit'];
     $editPayment = getPaymentById($conn, $id);
 }
 
-// FETCH ALL PAYMENTS
 $payments = getAllPayments($conn);
 ?>
