@@ -1,70 +1,93 @@
+<?php 
+include("../controller/housekeeping.php");
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Housekeeping Management</title>
-  <link rel="stylesheet" href="housekeeping.css">
+    <title>Housekeeping Management</title>
+    <script src="../js/housekeeping.js"></script>
 </head>
+<div class="mb-3">
+    <a href="admindashboardh.php" class="btn btn-primary">Back to Dashboard</a>
+</div>
+
 <body>
 
-  <h2>Housekeeping Management</h2>
-  
+<h2>Housekeeping Management</h2>
+<button id="switchmotion" onclick="toggleForm()">Add Task</button>
+<div id="addTaskForm" style="display:none;">
 
-  <table>
-    <thead>
-      <tr>
-        <th>Task</th>
-        <th>Assigned To</th>
-        <th>Status</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Time Taken</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="taskTableBody">
-      <tr>
-        <td>Clean Room 101</td>
-        <td>Rahim</td>
-        <td class="status">Pending</td>
-        <td class="start">—</td>
-        <td class="end">—</td>
-        <td class="time">—</td>
-        <td>
-          <button type="button" class="startBtn">Start</button>
-          <button type="button" class="doneBtn">Mark Done</button>
-          <button type="button" class="deleteBtn">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<form method="post" action="housekeepingView.php">
+    Room ID:
+    <input type="text" name="room_id" value="<?php echo $editTask['room_id'] ?? ''; ?>"><br><br>
 
+    Task:
+    <input type="text" name="task" value="<?php echo $editTask['task'] ?? ''; ?>"><br><br>
 
-  <div>
-    <button id="addTaskBtn">Add Task</button>
-  </div>
+    Assign To:
+    <input type="text" name="assigned_to" value="<?php echo $editTask['assigned_to'] ?? ''; ?>"><br><br>
 
-  <div id="addTaskForm">
-    <h3>Add New Task</h3>
-    <form id="taskForm">
-      <label for="task">Task:</label>
-      <input type="text" id="task" name="task" placeholder="e.g. Clean Room 303" required>
+    Status:
+    <select name="status">
+        <option value="" disabled <?php echo empty($editTask['status']) ? 'selected' : ''; ?>>Select Status</option>
+        <option value="Pending" <?php if(($editTask['status'] ?? '') === 'Pending') echo 'selected'; ?>>Pending</option>
+        <option value="InProgress" <?php if(($editTask['status'] ?? '') === 'InProgress') echo 'selected'; ?>>In Progress</option>
+        <option value="Done" <?php if(($editTask['status'] ?? '') === 'Done') echo 'selected'; ?>>Done</option>
+    </select><br><br>
 
-      <label for="assignedTo">Assigned To:</label>
-      <input type="text" id="assignedTo" name="assignedTo" placeholder="Staff name" required>
+    <?php if (!empty($editTask)): ?>
+        <input type="hidden" name="id" value="<?php echo $editTask['id']; ?>">
+        <input type="submit" name="update" value="Update Task">
+    <?php else: ?>
+        <input type="submit" name="add" value="Add Task">
+    <?php endif; ?>
+</form>
+</div>
 
-      <label for="status">Status:</label>
-      <select id="status" name="status" required>
-        <option value="">----Select status----</option>
-        <option value="Pending">Pending</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Done">Done</option>
-      </select>
+<p style="color:green;"><?php echo $success; ?></p>
+<p style="color:red;"><?php echo $error; ?></p>
 
-      <button type="submit">Save Task</button>
-    </form>
-  </div>
+<hr>
 
-  <script src="housekeeping.js"></script>
+<h2>All Housekeeping Tasks</h2>
+
+<table border="1" cellpadding="10">
+<tr>
+    <th>ID</th>
+    <th>Room</th>
+    <th>Task</th>
+    <th>Assigned To</th>
+    <th>Status</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Action</th>
+</tr>
+
+<?php
+if ($tasks && mysqli_num_rows($tasks) > 0) {
+    while ($row = mysqli_fetch_assoc($tasks)) {
+?>
+<tr>
+    <td><?php echo $row['id']; ?></td>
+    <td><?php echo $row['room_id']; ?></td>
+    <td><?php echo $row['task']; ?></td>
+    <td><?php echo $row['assigned_to']; ?></td>
+    <td><?php echo $row['status']; ?></td>
+    <td><?php echo $row['start_time']; ?></td>
+    <td><?php echo $row['end_time']; ?></td>
+    <td>
+        <a href="housekeeping.php?edit=<?php echo $row['id']; ?>">Edit</a> |
+        <a href="housekeeping.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Delete this task?')">Delete</a>
+    </td>
+</tr>
+<?php
+    }
+} else {
+    echo "<tr><td colspan='8'>No tasks found.</td></tr>";
+}
+?>
+</table>
+
 </body>
 </html>
