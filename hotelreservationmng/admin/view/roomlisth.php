@@ -1,98 +1,99 @@
+<?php 
+include("../controller/roomlist.php");
+?>
+
+
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Room Management</title>
-    <link rel="stylesheet" href="roomlist.css">
+<script src="../js/roomlist.js"></script>
+
+
 </head>
+<div class="mb-3">
+    <a href="admindashboardh.php" class="btn btn-primary">Back to Dashboard</a>
+</div>
 
 <body>
 
-    <h2>Room Management</h2>
+<h2>Room Management</h2>
+<button id="switchmotion" onclick="toggleForm()">Add Room</button>
+<div id="addRoomForm" style="display:none;">
 
-    <table>
-        <thead>
-            <tr>
-                <th>Room Number</th>
-                <th>Floor</th>
-                <th>View</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+    <form method="post" action="roomlisth.php">
 
-        <tbody id="roomTableBody">
-            <tr>
-                <td>101</td>
-                <td>1</td>
-                <td>Sea View</td>
-                <td>Deluxe</td>
-                <td>Available</td>
-                <td>
+    Room No:<input type="text" name="room_no" value="<?php echo $editRoom['room_no'] ?? ''; ?>"><br><br>
+Type:<input type="text" name="type" value="<?php echo $editRoom['type'] ?? ''; ?>"><br><br>
+Floor:<input type="text" name="floor" value="<?php echo $editRoom['floor'] ?? ''; ?>"><br><br>
+View:
+    <input type="text" name="view" value="<?php echo $editRoom['view'] ?? ''; ?>"><br><br>
+    Status:
+<select name="status">
+    <option value="" disabled selected>Select Status</option>
+    <option value="Available" <?php if(($editRoom['status'] ?? '') === 'Available') echo 'selected'; ?>>Available</option>
+    <option value="Occupied" <?php if(($editRoom['status'] ?? '') === 'Occupied') echo 'selected'; ?>>Occupied</option>
+    <option value="Cleaning" <?php if(($editRoom['status'] ?? '') === 'Cleaning') echo 'selected'; ?>>Cleaning</option>
+    <option value="Maintenance" <?php if(($editRoom['status'] ?? '') === 'Maintenance') echo 'selected'; ?>>Maintenance</option>
+</select>
+    </select><br><br>
 
-                    <button type="button" class="editBtn" data-room="101">Edit</button>
-                    <button type="button" class="deleteBtn">Delete</button>
-                </td>
-            </tr>
+    Price:
+    <input type="number" name="price" value="<?php echo $editRoom['price'] ?? ''; ?>"><br><br>
 
-            <tr>
-                <td>202</td>
-                <td>2</td>
-                <td>Garden View</td>
-                <td>Standard</td>
-                <td>Occupied</td>
-                <td>
-
-                    <button type="button" class="editBtn" data-room="202">Edit</button>
-                    <button type="button" class="deleteBtn">Delete</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>302</td>
-                <td>3</td>
-                <td>Hill View</td>
-                <td>Balcony</td>
-                <td>Cleaning</td>
-                <td>
-                    <button type="button" class="editBtn" data-room="302">Edit</button>
-                    <button type="button" class="deleteBtn">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div id="addRoomForm" style="display:none;">
-        <h3>Add New Room</h3>
-        <form method="POST" action="Manage -Rooms.php">
-            <label>Room Number:</label>
-            <input type="text" name="roomNumber" />
-
-            <label>Floor:</label>
-            <input type="text" name="floor" />
-
-            <label>View:</label>
-            <input type="text" id="view" />
-
-            <label>Type:</label>
-            <input type="text" id="type" />
-
-            <label>Status:</label>
-            <select name="status" required>
-                <option value="">----Select status----</option>
-                <option value="Available">Available</option>
-                <option value="Occupied">Occupied</option>
-                <option value="Cleaning">Cleaning</option>
-                <option value="Maintenance">Maintenance</option>
-            </select>
-
-            <button type="submit">Save Room</button>
-        </form>
+    <?php if ($editRoom): ?>
+        <input type="hidden" name="id" value="<?php echo $editRoom['id']; ?>">
+        <input type="submit" name="update" value="Update Room">
+    <?php else: ?>
+        <input type="submit" name="add" value="Add Room">
+    <?php endif; ?>
+</form>
     </div>
-    <button id="switchmotion" onclick="toggleForm()">Add Room</button>
 
-    <script src="Manage -Rooms.js"></script>
+<p style="color:green;"><?php echo $success; ?></p>
+<p style="color:red;"><?php echo $error; ?></p>
+
+<hr>
+
+<h2>Available Rooms</h2>
+
+<table border="1" cellpadding="10">
+<tr>
+    <th>ID</th>
+    <th>Room No</th>
+    <th>Type</th>
+    <th>Floor</th>
+    <th>View</th>
+    <th>Status</th>
+    <th>Price</th>
+    <th>Action</th>
+</tr>
+
+<?php
+if ($rooms && mysqli_num_rows($rooms) > 0) {
+    while ($row = mysqli_fetch_assoc($rooms)) {
+?>
+<tr>
+    <td><?php echo $row['id']; ?></td>
+    <td><?php echo $row['room_no']; ?></td>
+    <td><?php echo $row['type']; ?></td>
+    <td><?php echo $row['floor']; ?></td>
+    <td><?php echo $row['view']; ?></td>
+    <td><?php echo $row['status']; ?></td>
+    <td><?php echo $row['price']; ?></td>
+    <td>
+    <a href="roomlisth.php?edit=<?php echo $row['id']; ?>">Edit</a> |
+<a href="roomlisth.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?')">Delete</a>
+
+    </td>
+</tr>
+<?php
+    }
+} else {
+    echo "<tr><td colspan='8'>No rooms found.</td></tr>";
+}
+?>
+</table>
+
 </body>
-
 </html>
