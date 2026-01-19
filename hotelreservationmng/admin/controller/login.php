@@ -1,40 +1,53 @@
 <?php
 session_start();
-$email = $password = $role = "";
-$emailError = $passwordError = $roleError = "";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-if (empty($_POST["email"])) {
+
+$email = $password = "";
+$emailError = $passwordError = $loginError = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    if (empty($_POST["email"])) {
 $emailError = "Email is required";
-} else {
-$email = trim($_POST["email"]);
+    } else {
+$email = test_input($_POST["email"]);
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $emailError = "Invalid email format";
-}
-}
-if (empty($_POST["password"])) {
-$passwordError = "Password is required";
-} else {
-$password = trim($_POST["password"]);
-if (strlen($password) < 6) {
-$passwordError = "Password must be at least 6 characters";
-}
-}
-if (empty($_POST["role"])) {
-$roleError = "Role is required";
-} else {
-$role = trim($_POST["role"]);
-}
-if (empty($emailError) && empty($passwordError) && empty($roleError)) {
+        }
+    }
+    if (empty($_POST["password"])) {
+        $passwordError = "Password is required";
+    } else {
+    $password = $_POST["password"];
+    }
+
+    if (empty($emailError) && empty($passwordError)) {
+    if (
+    isset($_SESSION['email']) &&
+    $_SESSION['email'] === $email
+) {
 $_SESSION['loggedin'] = true;
-$_SESSION['email'] = $email;
-$_SESSION['role'] = $role;
-if ($role === "Admin") {
-header("Location: ../View/admindashboardh.php");
-exit();
+$cookie_time = time() + (20 * 24 * 60 * 60);
+setcookie("uname", $name, $cookie_time, "/");
+setcookie("email", $email, $cookie_time, "/");
+
+if ($_SESSION['role'] === "Admin") {
+header("Location: ../view/admindashboardh.php");
 } else {
-header("Location: ../View/guestdashboard.php");
-exit();
+header("Location: ../view/guesdashboard.php");
+    }
+    exit();
+        } else {
+    $loginError = "Invalid email or password";
+        }
+    }
 }
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
-}
+?>
+
 ?>
