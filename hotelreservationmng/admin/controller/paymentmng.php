@@ -1,7 +1,3 @@
-
-
-
-
 <?php
 include "../model/paymentmodel.php";
 
