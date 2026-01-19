@@ -11,7 +11,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
             alert(response.message);
 
             if (response.success) {
-                // ✅ Role অনুযায়ী Redirect
+                
                 if (response.role === "Admin") {
                     window.location.href = "admindashboard.php";
                 } else {
