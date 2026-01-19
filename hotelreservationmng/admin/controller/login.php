@@ -1,53 +1,32 @@
 <?php
 session_start();
-
-$email = $password = "";
-$emailError = $passwordError = $loginError = "";
-
+include("../model/usersmodel.php");
+header('Content-Type: application/json');
+$response = ["success" => false, "message" => ""];
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email    = trim($_POST["email"] ?? "");
+    $password = trim($_POST["password"] ?? "");
 
-    if (empty($_POST["email"])) {
-$emailError = "Email is required";
+    if (empty($email) || empty($password)) {
+        $response["message"] = "Email and password are required";
     } else {
-$email = test_input($_POST["email"]);
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-$emailError = "Invalid email format";
-        }
-    }
-    if (empty($_POST["password"])) {
-        $passwordError = "Password is required";
-    } else {
-    $password = $_POST["password"];
-    }
+        $user = getUserByEmail($email, $conn);
+        if ($user && password_verify($password, $user["password"])) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $user["name"];
+            $_SESSION['email']    = $user["email"];
+            $_SESSION['role']     = $user["role"];
+            $cookie_time = time() + (7 * 24 * 60 * 60);
+            setcookie("username", $user["name"], $cookie_time, "/");
+            setcookie("email", $user["email"], $cookie_time, "/");
+            setcookie("role", $user["role"], $cookie_time, "/");
 
-    if (empty($emailError) && empty($passwordError)) {
-    if (
-    isset($_SESSION['email']) &&
-    $_SESSION['email'] === $email
-) {
-$_SESSION['loggedin'] = true;
-$cookie_time = time() + (20 * 24 * 60 * 60);
-setcookie("uname", $name, $cookie_time, "/");
-setcookie("email", $email, $cookie_time, "/");
-
-if ($_SESSION['role'] === "Admin") {
-header("Location: ../view/admindashboardh.php");
-} else {
-header("Location: ../view/guesdashboard.php");
-    }
-    exit();
+            $response["success"] = true;
+            $response["message"] = "Login successful!";
+            $response["role"]    = $user["role"];
         } else {
-    $loginError = "Invalid email or password";
+            $response["message"] = "Invalid email or password";
         }
     }
 }
-
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-?>
-
-?>
+echo json_encode($response);
