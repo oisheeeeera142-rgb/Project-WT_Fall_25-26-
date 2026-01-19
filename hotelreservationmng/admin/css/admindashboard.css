@@ -1,59 +1,85 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body */
 body {
-    background-color: black;
-}
-
-.flex-container {
-    display: -webkit-flex;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    min-height: 100vh;
     display: flex;
-    -webkit-flex-direction: column;
     flex-direction: column;
-    margin-left: 256px;
-    width: auto;
-    height: auto;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
+    align-items: center;
+    color: #fff;
 }
 
-.flex-item {
-    width: auto;
-    height: auto;
-    margin: 10px;
-    margin-left: auto;
-    margin-right: auto;
+/* Heading */
+h1 {
+    margin: 30px 0;
+    font-size: 36px;
+    letter-spacing: 1px;
 }
 
-h1[id="button"] {
-    margin: 20px;
-    line-height: normal;
-    font-family: Roboto-Light;
-    font-size: 40px;
-    text-align: center;
-    color: #1c6c9e;
-    line-height: 55px;
-    border-bottom: 2px solid #259414;
-    padding: 30px 100px;
+/* Admin info box (optional use) */
+#admin {
+    margin-bottom: 20px;
+    font-size: 18px;
+    opacity: 0.9;
 }
 
-p[id="logout"] {
-    margin: 20px;
-    font-size: 30px;
-    font-family: Roboto-Regular;
-    color: white;
-    line-height: 42px;
-    padding: 10px 100px;
-    text-align: center;
+/* Buttons container */
+.buttons {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
 }
 
-.customer {
-    margin: 20px;
-    font-size: 30px;
-    font-family: Roboto-Regular;
-    color: white;
-    line-height: 42px;
-    padding: 10px 100px;
-    text-align: center;
+/* Dashboard buttons */
+.buttons button {
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #ffffff;
+    color: #1e3c72;
+    transition: all 0.3s ease;
 }
 
-.xd {
-    background: url("../Image/BodyImg.png");
+/* Hover effect */
+.buttons button:hover {
+    background: #ffd369;
+    color: #000;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Logout button */
+body>button {
+    margin-top: 25px;
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: #ff4d4d;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+/* Logout hover */
+body>button:hover {
+    background: #ff1a1a;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
