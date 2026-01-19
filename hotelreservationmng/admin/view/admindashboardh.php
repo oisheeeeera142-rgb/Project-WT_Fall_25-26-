@@ -24,11 +24,11 @@ if (
 <h1>Admin Dashboard</h1>
 
 <div class="buttons">
-    <button onclick="location.href='roomlisth.php'">Manage Rooms</button>
-    <button onclick="location.href='bookingrooms.php'">Booking</button>
-    <button onclick="location.href='payment.php'">Payment</button>
-    <button onclick="location.href='housekeeping.php'">Housekeeping</button>
-    <button onclick="location.href='guestreview.php'">Guest Review</button>
+<button onclick="location.href='roomlisth.php'">Manage Rooms</button>
+<button onclick="location.href='bookingroom.php'">Booking Management</button>
+<button onclick="location.href='payment.php'">Payment Management</button>
+<button onclick="location.href='housekeeping.php'">Housekeeping Management</button>
+<button onclick="location.href='guestreview.php'">Guest Review Management</button>
 </div>
 
 <br>
