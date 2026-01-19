@@ -1,26 +1,29 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login - Hotel Reservation</title>
-<link rel="stylesheet" href="../css/login.css">
+    <title>Login - Hotel Reservation</title>
+    <link rel="stylesheet" href="login.css">
+    <script src="../js/login.js" defer></script>
 </head>
 <body>
-<h2>Login</h2>
-<form action="../controller/login.php" method="post" onsubmit="return validateForm();">
-<label>Email:</label>
-<input type="email" name="email" required><br>
-<label>Password:</label>
-<input type="password" name="password" required><br>
-<label>Role:</label>
-<select name="role" required>
-<option value="">--Select Role--</option>
-<option value="Guest">Guest</option>
-<option value="Admin">Admin</option>
-</select><br>
-<button type="submit">Login</button>
-</form>
+
+<div>
+    <h2>Login</h2>
+
+    <form id="loginForm">
+        <label>Email:</label>
+        <input type="email" id="email" name="email"><br>
+
+        <label>Password:</label>
+        <input type="password" id="password" name="password"><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+<div id="loginResult" style="display:none;"></div>
+
+
+</div>
 
 </body>
 </html>

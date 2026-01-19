@@ -19,18 +19,26 @@ $sql = "INSERT INTO rooms (room_number, floor, view, type, status)
 VALUES ('$roomNumber', '$floor', '$view', '$type', '$status')";
 return mysqli_query($conn, $sql);
 }
-function updateRoom($conn, $id, $roomNumber, $floor, $view, $type, $status) {
-$sql = "UPDATE rooms SET 
-room_number='$roomNumber', 
-floor='$floor', 
-view='$view', 
-type='$type', 
-status='$status' 
-WHERE id=$id";
-return mysqli_query($conn, $sql);
-}
-function deleteRoom($conn, $id) {
-    $sql = "DELETE FROM rooms WHERE id=$id";
+function updateRoom($conn, $id, $room_no, $type, $floor, $view, $status, $price) {
+    $sql = "UPDATE rooms SET 
+            room_no='$room_no',
+            type='$type',
+            floor='$floor',
+            view='$view',
+            status='$status',
+            price='$price'
+            WHERE id=$id";
     return mysqli_query($conn, $sql);
 }
+
+function deleteRoom($conn, $id) {
+$sql = "DELETE FROM rooms WHERE id=$id";
+return mysqli_query($conn, $sql);
+}
+function getRoomById($conn, $id) {
+    $sql = "SELECT * FROM rooms WHERE id = $id";
+    $res = mysqli_query($conn, $sql);
+    return mysqli_fetch_assoc($res);
+}
+
 ?>

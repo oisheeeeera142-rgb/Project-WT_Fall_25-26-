@@ -42,4 +42,11 @@ function deleteBooking($conn, $id) {
     $sql = "DELETE FROM bookings WHERE id=$id";
     return mysqli_query($conn, $sql);
 }
+$bookings = mysqli_query($conn, "
+    SELECT b.id AS booking_id, b.guest_name, r.room_no, b.checkin, b.checkout, b.status
+    FROM bookings b
+    JOIN rooms r ON b.room_id = r.id
+");
+
+
 ?>

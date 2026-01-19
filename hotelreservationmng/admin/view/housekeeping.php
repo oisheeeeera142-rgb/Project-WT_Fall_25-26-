@@ -7,18 +7,20 @@ include("../controller/housekeeping.php");
 <head>
     <title>Housekeeping Management</title>
     <script src="../js/housekeeping.js"></script>
-</head>
-<div class="mb-3">
-    <a href="admindashboardh.php" class="btn btn-primary">Back to Dashboard</a>
-</div>
+<link rel="stylesheet" href="../css/housekeeping.css">
 
+</head>
+<div class="cleaning">
+    <a href="admindashboardh.php" class="btn btn-primary">Back to Dashboard</a>
+
+</div>
 <body>
 
 <h2>Housekeeping Management</h2>
 <button id="switchmotion" onclick="toggleForm()">Add Task</button>
 <div id="addTaskForm" style="display:none;">
 
-<form method="post" action="housekeepingView.php">
+<form method="post" action="housekeeping.php">
     Room ID:
     <input type="text" name="room_id" value="<?php echo $editTask['room_id'] ?? ''; ?>"><br><br>
 
@@ -51,7 +53,6 @@ include("../controller/housekeeping.php");
 <hr>
 
 <h2>All Housekeeping Tasks</h2>
-
 <table border="1" cellpadding="10">
 <tr>
     <th>ID</th>
@@ -88,6 +89,3 @@ if ($tasks && mysqli_num_rows($tasks) > 0) {
 }
 ?>
 </table>
-
-</body>
-</html>

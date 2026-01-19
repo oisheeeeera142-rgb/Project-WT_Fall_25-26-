@@ -4,7 +4,9 @@
 <html>
 <head>
 <title>Payment Management</title>
-<script src="../js/payment.js"></script>
+<script src="../js/landing.js"></script>
+
+
 </head>
 <body>
 
@@ -90,4 +92,6 @@ if ($payments && mysqli_num_rows($payments) > 0) {
 }
 ?>
 </table>
+</body>
+</html>
 
