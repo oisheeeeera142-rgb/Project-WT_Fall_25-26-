@@ -23,7 +23,7 @@
 
         <div class="table-responsive">
 
-            <table class="table table-bordered table-hover align-middle">
+            <table id="doctorTable" class="table table-bordered table-hover align-middle">
 
                 <thead class="table-dark">
 

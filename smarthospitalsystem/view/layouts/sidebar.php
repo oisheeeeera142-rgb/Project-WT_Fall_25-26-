@@ -1,4 +1,8 @@
-<div class="sidebar">
+<button id="toggleSidebar" class="btn btn-light sidebar-toggle">
+    ☰
+</button>
+
+<div class="sidebar" id="sidebar">
 
     <div class="sidebar-logo">
         <h3>Smart Hospital</h3>
@@ -98,3 +102,34 @@
     </ul>
 
 </div>
+
+<style>
+.sidebar-toggle{
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 9999;
+}
+
+.sidebar{
+    width: 250px;
+    transition: all 0.3s ease;
+}
+
+.sidebar.collapsed{
+    margin-left: -250px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const sidebar = document.getElementById('sidebar');
+
+    toggleBtn.addEventListener('click', function(){
+        sidebar.classList.toggle('collapsed');
+    });
+
+});
+</script>
