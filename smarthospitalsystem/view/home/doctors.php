@@ -15,58 +15,63 @@
 
     </div>
 
-    <div class="row">
+    <div class="row justify-content-center g-4">
 
         <?php if(!empty($doctors)): ?>
 
-            <?php foreach($doctors as $doctor): ?>
+           <?php foreach($doctors as $doctor): ?>
 
-                <div class="col-md-4 mb-4">
+        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
 
-                    <div class="glass-card p-4 text-center h-100">
+        <div class="card shadow border-0 h-100">
 
-                        <img src="public/images/doctor1.jpg"
-                             class="rounded-circle mb-3"
-                             width="120"
-                             height="120">
+            <div class="card-body text-center">
 
-                        <h4>
-                            <?= $doctor['full_name']; ?>
-                        </h4>
+                <i class="fas fa-user-doctor fa-4x text-primary mb-3"></i>
 
-                        <p class="text-primary fw-bold">
-                            <?= $doctor['specialization']; ?>
-                        </p>
+                <h5 class="fw-bold">
+                    <?= htmlspecialchars($doctor['full_name']); ?>
+                </h5>
 
-                        <p>
-                            <strong>Degree:</strong>
-                            <?= $doctor['degree']; ?>
-                        </p>
+                <p class="text-primary fw-bold">
+                    <?= htmlspecialchars($doctor['specialization']); ?>
+                </p>
 
-                        <p>
-                            <strong>Experience:</strong>
-                            <?= $doctor['experience']; ?>
-                        </p>
+                <span class="badge bg-success mb-3">
+                    Available
+                </span>
 
-                        <p>
-                            <strong>Chamber:</strong>
-                            <?= $doctor['chamber_address']; ?>
-                        </p>
+                <hr>
 
-                        <!-- LOGIN FIRST -->
+                <p>
+                    <strong>Degree:</strong><br>
+                    <?= htmlspecialchars($doctor['degree'] ?? 'N/A'); ?>
+                </p>
 
-                        <a href="index.php?page=login"
-                           class="btn btn-primary mt-3">
+                <p>
+                    <strong>Experience:</strong><br>
+                    <?= htmlspecialchars($doctor['experience'] ?? 'N/A'); ?>
+                </p>
 
-                            Book Appointment
+                <p>
+                    <strong>Chamber:</strong><br>
+                    <?= htmlspecialchars($doctor['chamber_address'] ?? 'N/A'); ?>
+                </p>
 
-                        </a>
+                <a href="index.php?page=book-appointment&doctor_id=<?= $doctor['id']; ?>"
+                   class="btn btn-primary w-100">
 
-                    </div>
+                    Book Appointment
 
-                </div>
+                </a>
 
-            <?php endforeach; ?>
+            </div>
+
+        </div>
+
+    </div>
+
+<?php endforeach; ?>
 
         <?php else: ?>
 

@@ -46,13 +46,17 @@ class PatientController
                  ->getAllDoctors();
     }
 
-    $appointments =
-        $this->appointmentModel
-             ->getAllAppointments();
+  $appointments =
+    $this->appointmentModel
+         ->getAppointmentsByPatient(
+             $_SESSION['patient_id']
+         );
 
-    $prescriptions =
-        $this->prescriptionModel
-             ->getAllPrescriptions();
+   $prescriptions =
+$this->prescriptionModel
+->getPatientPrescriptions(
+$_SESSION['patient_id']
+);
 
     include 'view/patient/dashboard.php';
 }
@@ -62,8 +66,10 @@ class PatientController
    public function appointmentHistory()
 {
     $appointments =
-        $this->appointmentModel
-             ->getAllAppointments();
+$this->appointmentModel
+->getAppointmentsByPatient(
+$_SESSION['patient_id']
+);
 
     // PAGINATION FIX
     $totalPages = 1;

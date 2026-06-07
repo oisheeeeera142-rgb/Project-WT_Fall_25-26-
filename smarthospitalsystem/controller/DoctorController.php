@@ -27,8 +27,11 @@ class DoctorController
 
     public function appointments()
     {
-        $appointments = $this->appointmentModel
-            ->getAllAppointments();
+       $appointments =
+$this->appointmentModel
+->getAppointmentsByDoctor(
+$_SESSION['doctor_id']
+);
 
         include 'view/doctor/appointments.php';
     }

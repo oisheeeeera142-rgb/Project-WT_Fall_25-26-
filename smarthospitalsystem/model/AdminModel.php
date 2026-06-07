@@ -146,28 +146,9 @@ class AdminModel
         ]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | GET APPOINTMENT BY PATIENT
-    |--------------------------------------------------------------------------
-    */
+  
 
-    public function getAppointmentsByPatient($patientId)
-    {
-        $query = "SELECT *
-                  FROM appointments
-                  WHERE patient_id = :patient_id
-                  ORDER BY id DESC";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->execute([
-
-            ':patient_id' => $patientId
-        ]);
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -205,5 +186,20 @@ class AdminModel
     ]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+public function getAppointmentsByPatient($patientId)
+{
+    $query = "SELECT *
+              FROM appointments
+              WHERE patient_id = :patient_id
+              ORDER BY id DESC";
+
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->execute([
+        ':patient_id' => $patientId
+    ]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 }

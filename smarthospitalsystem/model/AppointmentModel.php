@@ -157,20 +157,21 @@ class AppointmentModel
     |--------------------------------------------------------------------------
     */
 
-    public function getAppointmentsByDoctor($doctorId)
-    {
-        $query = "SELECT *
-                  FROM appointments
-                  WHERE doctor_id = :doctor_id";
+   public function getAppointmentsByDoctor($doctorId)
+{
+    $query = "SELECT *
+              FROM appointments
+              WHERE doctor_id=:doctor_id
+              ORDER BY id DESC";
 
-        $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare($query);
 
-        $stmt->execute([
-            ':doctor_id' => $doctorId
-        ]);
+    $stmt->execute([
+        ':doctor_id' => $doctorId
+    ]);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
     public function getAppointmentById($id)
 {
     $query = "SELECT appointments.*,
