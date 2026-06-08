@@ -18,74 +18,72 @@ class DoctorController
     }
 
     public function dashboard()
-    {
-        $appointments = $this->appointmentModel
-            ->getAllAppointments();
+{
+    $doctorId = $_SESSION['doctor_id'];
 
-        include 'view/doctor/dashboard.php';
-    }
+    $appointments =
+    $this->appointmentModel
+         ->getAppointmentsByDoctor($doctorId);
+
+    $pendingAppointments =
+    $this->appointmentModel
+         ->countPendingAppointments($doctorId);
+
+    $approvedAppointments =
+    $this->appointmentModel
+         ->countApprovedAppointments($doctorId);
+
+    include 'view/doctor/dashboard.php';
+}
 
     public function appointments()
     {
-       $appointments =
-$this->appointmentModel
-->getAppointmentsByDoctor(
-$_SESSION['doctor_id']
-);
+        $doctorId = $_SESSION['doctor_id'];
+
+        $appointments = $this->appointmentModel
+            ->getAppointmentsByDoctor($doctorId);
+
+        $pendingAppointments = $this->appointmentModel
+            ->countPendingAppointments($doctorId);
+
+        $approvedAppointments = $this->appointmentModel
+            ->countApprovedAppointments($doctorId);
 
         include 'view/doctor/appointments.php';
     }
 
-  public function manageSchedule()
-{
-    $scheduleModel = new ScheduleModel();
-    $doctorModel = new DoctorModel();
+    public function manageSchedule()
+    {
+        $doctorModel = $this->doctorModel;
+        $scheduleModel = $this->scheduleModel;
 
-    $doctor =
-        $doctorModel->getDoctorByUserId(
-            $_SESSION['user_id']
-        );
+        $doctor = $doctorModel->getDoctorByUserId($_SESSION['user_id']);
 
-    if(!$doctor){
-        die("Doctor not found");
+        if (!$doctor) {
+            die("Doctor not found");
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $data = [
+                'doctor_id' => $doctor['id'],
+                'available_date' => $_POST['available_date'],
+                'start_time' => $_POST['start_time'],
+                'end_time' => $_POST['end_time']
+            ];
+
+            $scheduleModel->createSchedule($data);
+
+            $_SESSION['success'] = "Schedule Added Successfully";
+
+            header("Location: index.php?page=manage-schedule");
+            exit;
+        }
+
+        $schedules = $scheduleModel->getSchedulesByDoctor($doctor['id']);
+
+        include 'view/doctor/manage_schedule.php';
     }
-
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-        $data = [
-
-            'doctor_id' =>
-                $doctor['id'],
-
-            'available_date' =>
-                $_POST['available_date'],
-
-            'start_time' =>
-                $_POST['start_time'],
-
-            'end_time' =>
-                $_POST['end_time']
-        ];
-
-        $scheduleModel->createSchedule($data);
-
-        $_SESSION['success'] =
-            "Schedule Added Successfully";
-
-        header(
-            "Location:index.php?page=manage-schedule"
-        );
-
-        exit;
-    }
-
-    $schedules =
-        $scheduleModel->getSchedulesByDoctor(
-            $doctor['id']
-        );
-
-    include 'view/doctor/manage_schedule.php';
-}
 
     public function approveAppointment($id)
     {
@@ -94,7 +92,8 @@ $_SESSION['doctor_id']
 
         $_SESSION['success'] = "Appointment Approved";
 
-        header("Location:index.php?page=doctor-appointments");
+        header("Location: index.php?page=doctor-appointments");
+        exit;
     }
 
     public function rejectAppointment($id)
@@ -104,7 +103,8 @@ $_SESSION['doctor_id']
 
         $_SESSION['success'] = "Appointment Rejected";
 
-        header("Location:index.php?page=doctor-appointments");
+        header("Location: index.php?page=doctor-appointments");
+        exit;
     }
 
     public function profile()

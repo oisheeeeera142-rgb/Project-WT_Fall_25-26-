@@ -1,15 +1,19 @@
 <?php
 
 require_once 'config/database.php';
+require_once 'model/ScheduleModel.php';
 
 class AppointmentModel
 {
     private $conn;
+    private $scheduleModel;
 
     public function __construct()
     {
         $database = new Database();
         $this->conn = $database->connect();
+
+        $this->scheduleModel = new ScheduleModel();
     }
 
     /*
@@ -17,7 +21,6 @@ class AppointmentModel
     | CREATE APPOINTMENT
     |--------------------------------------------------------------------------
     */
-
     public function createAppointment($data)
     {
         $query = "INSERT INTO appointments
@@ -42,7 +45,6 @@ class AppointmentModel
         $stmt = $this->conn->prepare($query);
 
         return $stmt->execute([
-
             ':patient_id' => $data['patient_id'],
             ':doctor_id' => $data['doctor_id'],
             ':schedule_id' => $data['schedule_id'],
@@ -57,36 +59,31 @@ class AppointmentModel
     | GET ALL APPOINTMENTS
     |--------------------------------------------------------------------------
     */
-
     public function getAllAppointments()
     {
         $query = "SELECT
                     appointments.*,
-
                     patient_users.full_name AS patient_name,
-
                     doctor_users.full_name AS doctor_name,
-
                     doctors.specialization
 
                   FROM appointments
 
                   INNER JOIN patients
-                  ON appointments.patient_id = patients.id
+                    ON appointments.patient_id = patients.id
 
                   INNER JOIN users AS patient_users
-                  ON patients.user_id = patient_users.id
+                    ON patients.user_id = patient_users.id
 
                   INNER JOIN doctors
-                  ON appointments.doctor_id = doctors.id
+                    ON appointments.doctor_id = doctors.id
 
                   INNER JOIN users AS doctor_users
-                  ON doctors.user_id = doctor_users.id
+                    ON doctors.user_id = doctor_users.id
 
                   ORDER BY appointments.id DESC";
 
         $stmt = $this->conn->prepare($query);
-
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -97,7 +94,6 @@ class AppointmentModel
     | UPDATE STATUS
     |--------------------------------------------------------------------------
     */
-
     public function updateStatus($id, $status)
     {
         $query = "UPDATE appointments
@@ -117,11 +113,9 @@ class AppointmentModel
     | DELETE APPOINTMENT
     |--------------------------------------------------------------------------
     */
-
     public function deleteAppointment($id)
     {
-        $query = "DELETE FROM appointments
-                  WHERE id = :id";
+        $query = "DELETE FROM appointments WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
@@ -132,10 +126,9 @@ class AppointmentModel
 
     /*
     |--------------------------------------------------------------------------
-    | GET APPOINTMENTS BY PATIENT
+    | GET BY PATIENT
     |--------------------------------------------------------------------------
     */
-
     public function getAppointmentsByPatient($patientId)
     {
         $query = "SELECT *
@@ -153,59 +146,106 @@ class AppointmentModel
 
     /*
     |--------------------------------------------------------------------------
-    | GET APPOINTMENTS BY DOCTOR
+    | GET BY DOCTOR
     |--------------------------------------------------------------------------
     */
+    public function getAppointmentsByDoctor($doctorId)
+    {
+        $query = "SELECT *
+                  FROM appointments
+                  WHERE doctor_id = :doctor_id";
 
-   public function getAppointmentsByDoctor($doctorId)
-{
-    $query = "SELECT *
-              FROM appointments
-              WHERE doctor_id=:doctor_id
-              ORDER BY id DESC";
+        $stmt = $this->conn->prepare($query);
 
-    $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            ':doctor_id' => $doctorId
+        ]);
 
-    $stmt->execute([
-        ':doctor_id' => $doctorId
-    ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+    /*
+    |--------------------------------------------------------------------------
+    | GET SINGLE APPOINTMENT
+    |--------------------------------------------------------------------------
+    */
     public function getAppointmentById($id)
-{
-    $query = "SELECT appointments.*,
-                     users.full_name
+    {
+        $query = "SELECT appointments.*,
+                         users.full_name
 
-              FROM appointments
+                  FROM appointments
 
-              INNER JOIN patients
-              ON appointments.patient_id = patients.id
+                  INNER JOIN patients
+                    ON appointments.patient_id = patients.id
 
-              INNER JOIN users
-              ON patients.user_id = users.id
+                  INNER JOIN users
+                    ON patients.user_id = users.id
 
-              WHERE appointments.id = :id";
+                  WHERE appointments.id = :id";
 
-    $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-    $stmt->bindParam(':id', $id);
+        $stmt->execute([
+            ':id' => $id
+        ]);
 
-    $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-    return $stmt->fetch();
-}
-    public function getSchedulesAjax()
-{
-    header('Content-Type: application/json');
+    /*
+    |--------------------------------------------------------------------------
+    | GET SCHEDULES BY DOCTOR (FIXED)
+    |--------------------------------------------------------------------------
+    */
+    public function getSchedulesByDoctor($doctorId)
+    {
+        return $this->scheduleModel->getSchedulesByDoctor($doctorId);
+    }
 
-    $doctorId = $_GET['doctor_id'];
+    /*
+    |--------------------------------------------------------------------------
+    | COUNT PENDING
+    |--------------------------------------------------------------------------
+    */
+    public function countPendingAppointments($doctorId)
+    {
+        $query = "SELECT COUNT(*) as total
+                  FROM appointments
+                  WHERE doctor_id = :doctor_id
+                  AND status = 'pending'";
 
-    $schedules =
-        $this->scheduleModel
-             ->getSchedulesByDoctor($doctorId);
+        $stmt = $this->conn->prepare($query);
 
-    echo json_encode($schedules);
-}
+        $stmt->execute([
+            ':doctor_id' => $doctorId
+        ]);
 
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['total'];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | COUNT APPROVED
+    |--------------------------------------------------------------------------
+    */
+    public function countApprovedAppointments($doctorId)
+    {
+        $query = "SELECT COUNT(*) as total
+                  FROM appointments
+                  WHERE doctor_id = :doctor_id
+                  AND status = 'approved'";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->execute([
+            ':doctor_id' => $doctorId
+        ]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['total'];
+    }
 }

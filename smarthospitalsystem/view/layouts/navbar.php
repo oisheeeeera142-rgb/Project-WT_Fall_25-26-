@@ -1,95 +1,72 @@
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+<nav class="navbar navbar-expand-lg custom-navbar">
 
     <div class="container">
 
-        <a class="navbar-brand fw-bold" href="index.php">
-            Smart Hospital
+        <a class="navbar-brand text-white fw-bold"
+           href="index.php">
+
+            🏥 Smart Hospital
+
         </a>
 
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#navbarMenu">
+                data-bs-target="#navbar">
 
             <span class="navbar-toggler-icon"></span>
 
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarMenu">
+        <div class="collapse navbar-collapse"
+             id="navbar">
 
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php">
+                    <a class="nav-link"
+                       href="index.php">
                         Home
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">
-                        About
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#services">
-                        Services
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?page=doctors">
+                    <a class="nav-link"
+                       href="index.php?page=doctors">
                         Doctors
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?page=login">
-                        Login
+                    <a class="nav-link"
+                       href="#services">
+                        Services
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link btn btn-primary px-4 ms-2"
-                       href="index.php?page=register">
-                        Register
+                    <a class="nav-link"
+                       href="#contact">
+                        Contact
                     </a>
                 </li>
 
-                <li class="nav-item dropdown">
+                <li class="nav-item ms-2">
+                    <a class="btn btn-primary"
+                       href="index.php?page=login">
 
-                    <a class="nav-link dropdown-toggle"
-                       href="#"
-                       role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false">
-
-                        <i class="fas fa-bell"></i>
+                        Login
 
                     </a>
+                </li>
 
-                    <ul class="dropdown-menu dropdown-menu-end">
+                <li class="nav-item ms-2">
+                    <a class="btn btn-success"
+                       href="index.php?page=register">
 
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                New Appointment
-                            </a>
-                        </li>
+                        Register
 
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                Doctor Approved
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                Prescription Added
-                            </a>
-                        </li>
-
-                    </ul>
-
+                    </a>
                 </li>
 
             </ul>

@@ -156,22 +156,21 @@ class AdminModel
     |--------------------------------------------------------------------------
     */
 
+    
     public function getAppointmentsByDoctor($doctorId)
-    {
-        $query = "SELECT *
-                  FROM appointments
-                  WHERE doctor_id = :doctor_id
-                  ORDER BY id DESC";
+{
+    $query = "SELECT *
+              FROM appointments
+              WHERE doctor_id = :doctor_id";
 
-        $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare($query);
 
-        $stmt->execute([
+    $stmt->execute([
+        ':doctor_id' => $doctorId
+    ]);
 
-            ':doctor_id' => $doctorId
-        ]);
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
     public function getScheduleById($id)
 {

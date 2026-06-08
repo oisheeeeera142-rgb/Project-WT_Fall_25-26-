@@ -1,11 +1,11 @@
 <?php include 'view/layouts/header.php'; ?>
 <?php include 'view/layouts/navbar.php'; ?>
 
-
-<section class="hero-section">
+<!-- HERO SECTION -->
+<section class="hero-section py-5">
     <div class="container">
-        <div class="row align-items-center">
-            
+        <div class="row align-items-center min-vh-100">
+
             <div class="col-md-6">
                 <h1 class="hero-title">
                     Modern Smart Hospital Management System
@@ -28,27 +28,27 @@
     </div>
 </section>
 
-<!-- STATISTICS -->
+<!-- STATS -->
 <section class="py-5 bg-light">
     <div class="container">
         <div class="row text-center">
 
-            <div class="col-md-3 mb-3">
+            <div class="col-md-3 mb-3 stat-box">
                 <h2 class="fw-bold text-primary">50+</h2>
                 <p>Doctors</p>
             </div>
 
-            <div class="col-md-3 mb-3">
+            <div class="col-md-3 mb-3 stat-box">
                 <h2 class="fw-bold text-primary">500+</h2>
                 <p>Patients</p>
             </div>
 
-            <div class="col-md-3 mb-3">
+            <div class="col-md-3 mb-3 stat-box">
                 <h2 class="fw-bold text-primary">1000+</h2>
                 <p>Appointments</p>
             </div>
 
-            <div class="col-md-3 mb-3">
+            <div class="col-md-3 mb-3 stat-box">
                 <h2 class="fw-bold text-primary">24/7</h2>
                 <p>Emergency Support</p>
             </div>
@@ -96,13 +96,43 @@
     </div>
 </section>
 
-<!-- WHY CHOOSE -->
+<!-- WHY CHOOSE US -->
 <section class="py-5 bg-light">
     <div class="container text-center">
-        <h2 class="fw-bold mb-3">Why Choose Us</h2>
-        <p class="text-muted">
+
+        <h2 class="fw-bold mb-4">Why Choose Us</h2>
+        <p class="text-muted mb-5">
             Trusted doctors, fast service, digital system and 24/7 emergency care.
         </p>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="dashboard-card text-center">
+                    <h3>👨‍⚕️</h3>
+                    <h5>Expert Doctors</h5>
+                    <p>Qualified Specialist Doctors</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="dashboard-card text-center">
+                    <h3>📅</h3>
+                    <h5>Online Appointment</h5>
+                    <p>Book Anytime</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="dashboard-card text-center">
+                    <h3>🚑</h3>
+                    <h5>Emergency Service</h5>
+                    <p>24/7 Available</p>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </section>
 
@@ -110,9 +140,7 @@
 <section class="py-5">
     <div class="container">
 
-        <div class="text-center mb-4">
-            <h2 class="fw-bold">Available Doctors</h2>
-        </div>
+        <h2 class="text-center mb-5">Available Doctors</h2>
 
         <div class="row g-4">
 
@@ -126,20 +154,18 @@
                                 <i class="fas fa-user-doctor"></i>
                             </div>
 
-                            <h5>
-                                <?= htmlspecialchars($doctor['full_name']); ?>
-                            </h5>
+                            <h5><?= htmlspecialchars($doctor['full_name']); ?></h5>
 
-                            <p class="text-muted">
+                            <p class="doctor-speciality">
                                 <?= htmlspecialchars($doctor['specialization']); ?>
                                 <span class="availability-badge">Available</span>
                             </p>
 
-                            <p class="mb-1"><strong>Degree:</strong> <?= $doctor['degree'] ?? 'N/A'; ?></p>
-                            <p class="mb-1"><strong>Experience:</strong> <?= $doctor['experience'] ?? 'N/A'; ?></p>
+                            <p><strong>Degree:</strong> <?= $doctor['degree'] ?? 'N/A'; ?></p>
+                            <p><strong>Experience:</strong> <?= $doctor['experience'] ?? 'N/A'; ?></p>
 
                             <a href="index.php?page=book-appointment&doctor_id=<?= $doctor['id']; ?>"
-                               class="btn btn-primary btn-sm mt-3">
+                               class="btn btn-primary btn-sm doctor-btn">
                                 Book Appointment
                             </a>
 

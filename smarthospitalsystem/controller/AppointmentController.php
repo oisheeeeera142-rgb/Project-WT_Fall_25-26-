@@ -181,4 +181,36 @@ class AppointmentController
 
         echo json_encode($schedules);
     }
+    public function countPendingAppointments($doctorId)
+{
+    $query = "SELECT COUNT(*) as total
+              FROM appointments
+              WHERE doctor_id=:doctor_id
+              AND status='pending'";
+
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->execute([
+        ':doctor_id'=>$doctorId
+    ]);
+
+    return $stmt->fetch()['total'];
+}
+
+public function countApprovedAppointments($doctorId)
+{
+    $query = "SELECT COUNT(*) as total
+              FROM appointments
+              WHERE doctor_id=:doctor_id
+              AND status='approved'";
+
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->execute([
+        ':doctor_id'=>$doctorId
+    ]);
+
+    return $stmt->fetch()['total'];
+}
+    
 }
