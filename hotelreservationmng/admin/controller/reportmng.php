@@ -1,5 +1,6 @@
 
 <?php
+
 include "../model/reportmodel.php";
 
 $totalIncome = getTotalIncome($conn);

@@ -1,8 +1,6 @@
 <?php 
 include("../controller/roomlist.php");
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,12 +9,11 @@ include("../controller/roomlist.php");
 
 
 </head>
-<div class="mb-3">
+<div >
     <a href="admindashboardh.php" class="btn btn-primary">Back to Dashboard</a>
 </div>
 
 <body>
-
 <h2>Room Management</h2>
 <button id="switchmotion" onclick="toggleForm()">Add Room</button>
 <div id="addRoomForm" style="display:none;">
@@ -70,8 +67,8 @@ View:
 </tr>
 
 <?php
-if ($rooms && mysqli_num_rows($rooms) > 0) {
-    while ($row = mysqli_fetch_assoc($rooms)) {
+if ($rooms && count($rooms) > 0) {
+    foreach ($rooms as $row) {
 ?>
 <tr>
     <td><?php echo $row['id']; ?></td>
@@ -82,9 +79,8 @@ if ($rooms && mysqli_num_rows($rooms) > 0) {
     <td><?php echo $row['status']; ?></td>
     <td><?php echo $row['price']; ?></td>
     <td>
-    <a href="roomlisth.php?edit=<?php echo $row['id']; ?>">Edit</a> |
-<a href="roomlisth.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?')">Delete</a>
-
+        <a href="roomlisth.php?edit=<?php echo $row['id']; ?>">Edit</a> |
+        <a href="roomlisth.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?')">Delete</a>
     </td>
 </tr>
 <?php
@@ -94,6 +90,5 @@ if ($rooms && mysqli_num_rows($rooms) > 0) {
 }
 ?>
 </table>
-
 </body>
 </html>

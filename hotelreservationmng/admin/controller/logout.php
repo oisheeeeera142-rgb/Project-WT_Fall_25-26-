@@ -1,6 +1,10 @@
 <?php
 session_start();
+session_unset();
 session_destroy();
-header("Location: landingh.php");
-exit();
+setcookie("username", "", time()-3600, "/");
+setcookie("email", "", time()-3600, "/");
+setcookie("role", "", time()-3600, "/");
+header("Location: loginh.php");
+exit;
 ?>

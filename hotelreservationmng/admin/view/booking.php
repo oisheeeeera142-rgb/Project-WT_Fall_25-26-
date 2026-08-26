@@ -83,16 +83,17 @@ include("../controller/bookingmng.php");
 if ($bookings && mysqli_num_rows($bookings) > 0) {
     while ($row = mysqli_fetch_assoc($bookings)) {
 ?>
-<tr>
-    <td><?php echo $row['id']; ?></td>
-    <td><?php echo $row['guest_name']; ?></td>
-    <td><?php echo $row['room_no']; ?></td>
-    <td><?php echo $row['checkin']; ?></td>
-    <td><?php echo $row['checkout']; ?></td>
-    <td><?php echo $row['status']; ?></td>
-    <td>
-<a href="booking.php?edit=<?php echo $row['id']; ?>">Edit</a> |
-<a href="booking.php?delete=<?php echo $row['id']; ?>" onclick="return confirmDelete()">Delete</a>
+<td><?php echo $row['booking_id']; ?></td>
+<td><?php echo $row['guest_name']; ?></td>
+<td><?php echo $row['room_no']; ?></td>
+<td><?php echo $row['checkin']; ?></td>
+<td><?php echo $row['checkout']; ?></td>
+<td><?php echo $row['status']; ?></td>
+<td>
+    <a href="booking.php?edit=<?php echo $row['booking_id']; ?>">Edit</a> |
+    <a href="booking.php?delete=<?php echo $row['booking_id']; ?>" onclick="return confirmDelete()">Delete</a>
+</td>
+
 
     </td>
 </tr>
